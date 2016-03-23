@@ -53,7 +53,9 @@
             strings: {
                 months: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
                 days: [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ],
-                time: ["AM", "PM"]
+                time: ["AM", "PM"],
+                today: "Today",
+                now: "Now"
             }
         };
 
@@ -436,7 +438,7 @@
                     <tfoot>\
                         <tr>\
                             <td data-bind="attr: { colspan: constants.daysInWeek } ">\
-                                <a href="javascript:;" data-bind="click: calendar.selectToday">Today</a>\
+                                <a href="javascript:;" data-bind="click: calendar.selectToday, text: opts.strings.today"></a>\
                             </td>\
                         </tr>\
                     </tfoot>\
@@ -464,7 +466,7 @@
                     <tfoot>\
                         <tr>\
                             <td data-bind="attr: { colspan: time.sheet().length } ">\
-                                <a href="javascript:;" data-bind="click: time.selectNow">Now</a>\
+                                <a href="javascript:;" data-bind="click: time.selectNow, text: opts.strings.now"></a>\
                             </td>\
                         </tr>\
                     </tfoot>\
