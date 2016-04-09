@@ -336,6 +336,31 @@
 
                 self.value( new Date( data.set( data.get()-1 ) ) );
             },
+            touchy: {
+                int: null,
+                intTriggeredOnce: false,
+                startNext: function(data, e) {
+                    clearInterval(self.time.touchy.int);
+                    self.time.touchy.intTriggeredOnce = false;
+                    self.time.touchy.int = setInterval(function() {
+                        self.time.touchy.intTriggeredOnce = true;
+                        self.time.next(data, e);
+                    }, 200);
+                }, 
+                startPrev: function(data, e) {
+                    clearInterval(self.time.touchy.int);
+                    self.time.touchy.intTriggeredOnce = false;
+                    self.time.touchy.int = setInterval(function() {
+                        self.time.touchy.intTriggeredOnce = true;
+                        self.time.prev(data, e);
+                    }, 200);
+                }, 
+                stop: function(data, e) {
+                    clearInterval(self.time.touchy.int);
+                    if (self.time.touchy.intTriggeredOnce === false) 
+                        self.time.next(data, e);
+                },                 
+            },
             selectNow: function() {
                 var now = new Date();
 
@@ -450,7 +475,12 @@
                 <tbody>\
                     <tr data-bind="foreach: time.sheet">\
                         <td data-bind="css: { outofrange: $parent.utils.time.checkMaxTimeRange($data) }">\
-                            <a href="#" class="up" data-bind="click: $parent.time.next"></a>\
+                            <a href="#" class="up" data-bind="event: {\
+                                mousedown: $parent.time.touchy.startNext,\
+                                mouseup: $parent.time.touchy.stop,\
+                                touchstart: $parent.time.touchy.startNext,\
+                                touchend: $parent.time.touchy.stop,\
+                            }"></a>\
                         </td>\
                     </tr>\
                     <tr data-bind="foreach: time.sheet">\
@@ -458,7 +488,12 @@
                     </tr>\
                     <tr data-bind="foreach: time.sheet">\
                         <td data-bind="css: { outofrange: $parent.utils.time.checkMinTimeRange($data) }">\
-                            <a href="#" class="down" data-bind="click: $parent.time.prev"></a>\
+                            <a href="#" class="down" data-bind="event: {\
+                                mousedown: $parent.time.touchy.startPrev,\
+                                mouseup: $parent.time.touchy.stop,\
+                                touchstart: $parent.time.touchy.startPrev,\
+                                touchend: $parent.time.touchy.stop,\
+                            }"></a>\
                         </td>\
                     </tr>\
                 </tbody>\
