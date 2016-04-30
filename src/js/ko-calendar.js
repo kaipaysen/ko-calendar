@@ -338,10 +338,12 @@
             },
             touchy: {
                 int: null,
+                intDirection: null,
                 intTriggeredOnce: false,
                 startNext: function(data, e) {
                     clearInterval(self.time.touchy.int);
                     self.time.touchy.intTriggeredOnce = false;
+                    self.time.touchy.intDirection = 1;
                     self.time.touchy.int = setInterval(function() {
                         self.time.touchy.intTriggeredOnce = true;
                         self.time.next(data, e);
@@ -350,6 +352,7 @@
                 startPrev: function(data, e) {
                     clearInterval(self.time.touchy.int);
                     self.time.touchy.intTriggeredOnce = false;
+                    self.time.touchy.intDirection = -1;
                     self.time.touchy.int = setInterval(function() {
                         self.time.touchy.intTriggeredOnce = true;
                         self.time.prev(data, e);
@@ -357,8 +360,12 @@
                 }, 
                 stop: function(data, e) {
                     clearInterval(self.time.touchy.int);
-                    if (self.time.touchy.intTriggeredOnce === false) 
-                        self.time.next(data, e);
+                    if (self.time.touchy.intTriggeredOnce === false) {
+                        if (self.time.touchy.intDirection == 1)
+                            self.time.next(data, e); 
+                        if (self.time.touchy.intDirection == -1)
+                            self.time.prev(data, e); 
+                    }
                 },                 
             },
             selectNow: function() {
